@@ -1,4 +1,5 @@
 from entidades.Producto import Producto
+from entidades.Ordenes import Ordenes
 from entidades.Clientes import Cliente
 from connector import BaseDeDatos
 from clearConsola import clear
@@ -24,7 +25,7 @@ class MenuVentas:
             elif opcion == '2':
                 self.menu_productos()
             elif opcion == '3':
-                pass
+                self.menu_ordenes()
             elif opcion == '0':
                 print("Saliendo del sistema...")
                 break
@@ -62,6 +63,7 @@ class MenuVentas:
             elif opcion == '3':
                 try:
                     cliente_db.ver_clientes()
+                    print("----------------------------------")
                     id_cliente = int(input("Id del cliente a editar: "))
                     if not isinstance(id_cliente, int) or id_cliente < 1:
                         raise ValueError("El id debe ser un número positivo")
@@ -115,8 +117,7 @@ class MenuVentas:
             print("                 3. Editar producto")
             print("                 4. Eliminar producto")
             print("                 5. Ver producto por nombre")
-            print("                 6. Productos más vendidos")
-            print("                 7. Ver categorias")
+            print("                 6. Ver categorias")
             print("                 0. Volver al menu principal")
             print("\n")
             opcion = input("Opción: ")
@@ -168,12 +169,6 @@ class MenuVentas:
 
             elif opcion == '6':
                 try:
-                    producto_db.buscar_productos_mas_vendidos()
-                except Exception as e:
-                    print("Error al ver los productos más vendidos:", e)
-
-            elif opcion == '7':
-                try:
                     producto_db.ver_categorias()
                 except Exception as e:
                     print("Error al ver las categorías:", e)
@@ -185,4 +180,40 @@ class MenuVentas:
             else:
                 print("Opción inválida. Intente de nuevo.")
 
-    
+    def menu_ordenes(self):
+        ordenes_db = Ordenes(self.db)
+
+        while True:
+            print("\n")
+            print("-------------------- Menu Ordenes --------------------")
+            print("                Seleccione una opcion:                  ")
+            print("\n")
+            print("                 1. Ver todas las ordenes")
+            print("                 2. Agregar orden")
+            print("                 3. Ver ordenes por id_cliente ")
+            print("                 4. Productos más vendidos")
+            print("                 0. Volver al menu principal")
+            print("\n")
+            opcion = input("Opción: ")
+            print("\n")
+            clear()
+            if opcion == '1':
+                ordenes_db.ver_ordenes_totales()
+            elif opcion == '2':
+                try:
+                    ordenes_db.registrar_orden()
+                except Exception as e:
+                    print("Error al agregar la orden:", e)
+            elif opcion == '3':
+                id_cliente = int(input("Ingrese id del cliente: "))
+                if not isinstance(id_cliente, int):
+                    raise ValueError("El id debe ser un número")
+                ordenes_db.ver_ordenes_por_cliente(id_cliente)
+            elif opcion == '4':
+                try:
+                    ordenes_db.buscar_productos_mas_vendidos()
+                except Exception as e:
+                    print("Error al ver los productos más vendidos:", e)
+            elif opcion == '0':
+                print("Volviendo al menu principal...")
+                break

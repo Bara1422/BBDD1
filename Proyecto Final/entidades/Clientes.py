@@ -54,7 +54,7 @@ class Cliente:
                 raise ValueError("Ingrese una dirección válida")
 
 
-            query = "UPDATE Cliente SET nombre_cliente=%s, apellido_cliente=%s, direccion=%s WHERE id_cliente = %s"
+            query = "UPDATE Clientes SET nombre_cliente=%s, apellido_cliente=%s, direccion=%s WHERE id_cliente = %s"
             valores = (nombre, apellido, direccion, id_cliente)
             self.db.ejecutar(query, valores)
             print("Cliente editado correctamente")
@@ -76,15 +76,17 @@ class Cliente:
         except Exception as e:
             print(f"Error al eliminar el cliente: {e}")
 
-    def buscar_cliente_por_id(self, id_cliente):
+    def buscar_cliente_por_id(self, id_cliente: int) -> bool:
         try:
             query = "SELECT * FROM Clientes WHERE id_cliente = %s"
             resultado = self.db.obtener_datos(query, (id_cliente,))
             if resultado:
                 print("ID Cliente | Nombre Cliente | Apellido Cliente | Dirección")
                 print(f"{resultado[0][0]}, {resultado[0][1]}, {resultado[0][2]}, {resultado[0][3]}")
+                return True
             else:
                 print("El cliente con ese id no existe")
+                return False
 
         except Exception as e:
             print("Error al buscar el cliente", e)

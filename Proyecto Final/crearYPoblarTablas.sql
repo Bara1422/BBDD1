@@ -1,5 +1,6 @@
-#CREATE DATABASE VentasOnline;
-#USE VentasOnline;
+DROP DATABASE IF EXISTS VentasOnline;
+CREATE DATABASE VentasOnline;
+USE VentasOnline;
 
 DROP TABLE IF EXISTS Ordenes;
 DROP TABLE IF EXISTS Clientes;
@@ -185,5 +186,6 @@ INSERT INTO Ordenes (id_producto, id_cliente, fecha, cantidad_unidades) VALUES
 (3, 10, '2024-11-29', 5),
 (5, 10, '2024-11-27', 3);
 
-
+CREATE INDEX idx_id_cliente ON Ordenes(id_cliente);
+CREATE INDEX idx_id_cliente ON Clientes(id_cliente);
 

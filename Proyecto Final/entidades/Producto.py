@@ -100,18 +100,30 @@ class Producto:
         except Exception as e:
             print(f"Error al editar el producto: {e}")
 
-    def buscar_productos_mas_vendidos(self):
-        pass ##TODO CUANDO TENGA ORDENES
 
     def buscar_producto_por_nombre(self, nombre_producto):
         try:
-            query = "SELECT * FROM Productos WHERE nombre_producto = %s"
-            resultados = self.db.obtener_datos(query, (nombre_producto,))
+            query = "SELECT * FROM Productos WHERE nombre_producto LIKE %s"
+            patron = f"%{nombre_producto}%"
+            resultados = self.db.obtener_datos(query, (patron,))
             if resultados == []:
                 print("El producto no se encuentra en la base de datos")
                 return
             print("ID Producto | Nombre Producto | Precio | ID Categoria | Cantidad Stock")
             for resultado in resultados:
+                print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}, {resultado[3]}, {resultado[4]}")
+        except Exception as e:
+            print(f"Error al buscar el producto: {e}")
+
+    def buscar_producto_por_id(self, id_producto):
+        try:
+            query = "SELECT * FROM Productos WHERE id_producto = %s"
+            resultado = self.db.obtener_datos(query, (id_producto,))
+            if resultado == []:
+                print("El producto con ese id no existe")
+                return
+            print("ID Producto | Nombre Producto | Precio | ID Categoria | Cantidad Stock")
+            for resultado in resultado:
                 print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}, {resultado[3]}, {resultado[4]}")
         except Exception as e:
             print(f"Error al buscar el producto: {e}")
