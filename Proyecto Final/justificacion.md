@@ -1,4 +1,4 @@
-***Sistema de ventas en Linea***
+## Sistema de ventas en Linea
 
 El sistema está compuesto por las siguientes entidades:
 1. **Clientes** (entidad fuerte)
