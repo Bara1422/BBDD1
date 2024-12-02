@@ -19,28 +19,37 @@ class Ordenes:
         except Exception as e:
             print("Error al ver las ordenes", e)
 
-    def ver_ordenes_por_cliente(self, id_cliente):
+    def ver_ordenes_por_cliente(self, dato_cliente):
         try:
-            query = "SELECT * FROM Ordenes WHERE id_cliente = %s"
-            resultados = self.db.obtener_datos(query, (id_cliente,))
-            print("id_orden | id_producto | id_cliente | fecha | cantidad_unidades")
-            for resultado in resultados:
-                print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}, {resultado[3]}, {resultado[4]}")
+            query = """
+                SELECT o.id_orden, o.id_producto, c.id_cliente, c.nombre_cliente, c.apellido_cliente, o.fecha, o.cantidad_unidades FROM Ordenes o 
+                JOIN Clientes c ON o.id_cliente = c.id_cliente
+                WHERE c.nombre_cliente LIKE %s OR c.apellido_cliente LIKE %s
+            """
+            params = ('%' + dato_cliente + '%', '%' + dato_cliente + '%')
+            resultados = self.db.obtener_datos(query, params)
+            print("id_orden | id_producto | id_cliente | nombre | apellido | fecha | cantidad_unidades")
+            print("---------------------------------------------------------")
+            if resultados:
+                for resultado in resultados:
+                    print(f"{resultado[0]} | {resultado[1]} | {resultado[2]} | {resultado[3]} | {resultado[4]} | {resultado[5]} | {resultado[6]}")
+            else:
+                print("No se encontraron resultados para el cliente", dato_cliente)
             
         except Exception as e:
             print("Error al ver las ordenes por cliente", e)
 
     def registrar_orden(self):
         try:
-            id_cliente = input("Ingrese el id del cliente:")
+            id_cliente = input("Ingrese el id del cliente: ")
             if not id_cliente.isdigit() or int(id_cliente) < 1:
                 raise ValueError("El id del cliente debe ser un número entero positivo")
             
-            id_producto = input("Ingrese el id del producto:")
+            id_producto = input("Ingrese el id del producto: ")
             if not id_producto.isdigit() or int(id_producto) < 1:
                 raise ValueError("El id del producto debe ser un número entero positivo")
             
-            cantidad_unidades = int(input("Ingrese la cantidad de unidades:"))
+            cantidad_unidades = int(input("Ingrese la cantidad de unidades: "))
             if  cantidad_unidades < 1:
                 raise ValueError("La cantidad de unidades debe ser un número entero positivo")
             
@@ -63,7 +72,7 @@ class Ordenes:
             resultados = self.db.obtener_datos(query)
             print("id_producto | nombre | total_vendidos")
             for resultado in resultados:
-                print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}")
+                print(f"{resultado[0]} | {resultado[1]} | {resultado[2]}")
             
         except Exception as e:
             print("Error al buscar los productos más vendidos", e)

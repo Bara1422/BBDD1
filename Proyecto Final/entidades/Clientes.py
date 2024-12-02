@@ -29,7 +29,7 @@ class Cliente:
             resultados = self.db.obtener_datos(query)
             print("id_cliente | nombre_cliente | apellido_cliente | direccion")
             for resultado in resultados:
-                print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}, {resultado[3]}")
+                print(f"{resultado[0]} | {resultado[1]} | {resultado[2]} | {resultado[3]}")
             
         except Exception as e:
             print("Error al ver los clientes", e)
@@ -76,16 +76,25 @@ class Cliente:
         except Exception as e:
             print(f"Error al eliminar el cliente: {e}")
 
-    def buscar_cliente_por_id(self, id_cliente: int) -> bool:
+    def buscar_cliente_especifico(self, dato_cliente) -> bool:
         try:
-            query = "SELECT * FROM Clientes WHERE id_cliente = %s"
-            resultado = self.db.obtener_datos(query, (id_cliente,))
+            if dato_cliente.isdigit():    
+                query = "SELECT * FROM Clientes WHERE id_cliente = %s"
+                params = (int(dato_cliente),)
+            else:
+                query = "SELECT * FROM Clientes WHERE nombre_cliente LIKE %s OR apellido_cliente LIKE %s"
+                params = ('%' + dato_cliente + '%', '%' + dato_cliente + '%')
+
+            resultado = self.db.obtener_datos(query, params)
+
             if resultado:
                 print("ID Cliente | Nombre Cliente | Apellido Cliente | Dirección")
-                print(f"{resultado[0][0]}, {resultado[0][1]}, {resultado[0][2]}, {resultado[0][3]}")
+                for res in resultado:
+
+                    print(f"{res[0]} | {res[1]} | {res[2]} | {res[3]}")
                 return True
             else:
-                print("El cliente con ese id no existe")
+                print("No se encontro cliente con ese Id, Nombre o Apellido")
                 return False
 
         except Exception as e:

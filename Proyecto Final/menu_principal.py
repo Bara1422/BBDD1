@@ -44,7 +44,7 @@ class MenuVentas:
             print("                 2. Agregar cliente")
             print("                 3. Editar cliente")
             print("                 4. Eliminar cliente")
-            print("                 5. Buscar cliente por ID")
+            print("                 5. Buscar cliente por ID, Nombre o Apellido")
             print("                 0. Volver al menu principal")
             print("\n")
             opcion = input("Opción: ")
@@ -87,11 +87,8 @@ class MenuVentas:
 
             elif opcion == '5':
                 try:
-                    id_cliente = int(input("Id del cliente a buscar: "))
-                    if not isinstance(id_cliente, int) or id_cliente < 1:
-                        raise ValueError("El id debe ser un número positivo")
-                
-                    cliente_db.buscar_cliente_por_id(id_cliente)
+                    dato_cliente = input("Ingrese el ID, nombre o apellido del cliente a buscar: ")
+                    cliente_db.buscar_cliente_especifico(dato_cliente)
 
                 except Exception as e:
                     print("Error al buscar el cliente:", e)
@@ -190,7 +187,7 @@ class MenuVentas:
             print("\n")
             print("                 1. Ver todas las ordenes")
             print("                 2. Agregar orden")
-            print("                 3. Ver ordenes por id_cliente ")
+            print("                 3. Ver ordenes por cliente ")
             print("                 4. Productos más vendidos")
             print("                 0. Volver al menu principal")
             print("\n")
@@ -205,10 +202,9 @@ class MenuVentas:
                 except Exception as e:
                     print("Error al agregar la orden:", e)
             elif opcion == '3':
-                id_cliente = int(input("Ingrese id del cliente: "))
-                if not isinstance(id_cliente, int):
-                    raise ValueError("El id debe ser un número")
-                ordenes_db.ver_ordenes_por_cliente(id_cliente)
+                dato_cliente = input("Ingrese Nombre o Apellido del cliente: ")
+                
+                ordenes_db.ver_ordenes_por_cliente(dato_cliente)
             elif opcion == '4':
                 try:
                     ordenes_db.buscar_productos_mas_vendidos()

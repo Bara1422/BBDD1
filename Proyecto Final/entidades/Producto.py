@@ -111,7 +111,7 @@ class Producto:
                 return
             print("ID Producto | Nombre Producto | Precio | ID Categoria | Cantidad Stock")
             for resultado in resultados:
-                print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}, {resultado[3]}, {resultado[4]}")
+                print(f"{resultado[0]} | {resultado[1]} | {resultado[2]} | {resultado[3]} | {resultado[4]}")
         except Exception as e:
             print(f"Error al buscar el producto: {e}")
 
@@ -124,7 +124,7 @@ class Producto:
                 return
             print("ID Producto | Nombre Producto | Precio | ID Categoria | Cantidad Stock")
             for resultado in resultado:
-                print(f"{resultado[0]}, {resultado[1]}, {resultado[2]}, {resultado[3]}, {resultado[4]}")
+                print(f"{resultado[0]} | {resultado[1]} | {resultado[2]} | {resultado[3]} | {resultado[4]}")
         except Exception as e:
             print(f"Error al buscar el producto: {e}")
 
